@@ -1,18 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <meta charset="UTF-8" />
+  <title>Tracker Dashboard</title>
 </head>
 <body>
-  <h2>IP & Device Info</h2>
-  <pre id="ipinfo"></pre>
-  <h2>Captured Image</h2>
-  <img id="capture" width="300"/>
+  <h1>Tracker Dashboard</h1>
+  <div>
+    <h2>IP Information:</h2>
+    <pre id="ip-display"></pre>
+  </div>
+  <div>
+    <h2>Last Captured Camera Image:</h2>
+    <img id="cam-display" width="320" height="240" />
+  </div>
+
   <script>
-    document.getElementById("ipinfo").innerText = localStorage.getItem("ip_log") || "No Data";
-    document.getElementById("capture").src = localStorage.getItem("camera_img") || "";
+    window.onload = () => {
+      const ipInfo = localStorage.getItem('ipInfo');
+      const camImage = localStorage.getItem('cameraImage');
+
+      if (ipInfo) {
+        document.getElementById('ip-display').textContent = JSON.stringify(JSON.parse(ipInfo), null, 2);
+      } else {
+        document.getElementById('ip-display').textContent = 'No IP info saved.';
+      }
+
+      if (camImage) {
+        document.getElementById('cam-display').src = camImage;
+      } else {
+        document.getElementById('cam-display').alt = 'No camera image saved.';
+      }
+    };
   </script>
 </body>
 </html>
