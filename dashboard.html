@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h2>IP & Device Info</h2>
+  <pre id="ipinfo"></pre>
+  <h2>Captured Image</h2>
+  <img id="capture" width="300"/>
+  <script>
+    document.getElementById("ipinfo").innerText = localStorage.getItem("ip_log") || "No Data";
+    document.getElementById("capture").src = localStorage.getItem("camera_img") || "";
+  </script>
+</body>
+</html>
