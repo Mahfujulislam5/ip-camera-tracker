@@ -1,14 +1,18 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Welcome</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IP & Camera Tracker</title>
 </head>
 <body>
-  <h2>Loading...</h2>
-  <video id="video" autoplay playsinline width="320" height="240" style="display:none;"></video>
+  <h1>Welcome to IP & Camera Tracker</h1>
+  <p id="ip-info">Loading IP info...</p>
+  <button id="start-camera">Start Camera</button>
+  <video id="video" width="320" height="240" autoplay style="display:none;"></video>
   <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+  <p>Last captured image:</p>
+  <img id="captured-img" width="320" height="240" />
   <script src="script.js"></script>
 </body>
 </html>
